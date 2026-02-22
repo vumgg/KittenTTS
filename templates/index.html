@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KittenTTS - Text to Speech</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐱 KittenTTS</h1>
+            <p class="subtitle">Lightweight, High-Quality Text-to-Speech</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <h2>Generate Speech</h2>
+                
+                <form id="ttsForm" class="form-group">
+                    <!-- Text Input -->
+                    <div class="form-field">
+                        <label for="textInput">Text to Convert:</label>
+                        <textarea 
+                            id="textInput" 
+                            placeholder="Enter text to convert to speech (max 1000 characters)..."
+                            maxlength="1000"
+                            rows="4"
+                            required
+                        ></textarea>
+                        <div class="char-count">
+                            <span id="charCount">0</span> / 1000 characters
+                        </div>
+                    </div>
+
+                    <!-- Voice Selection -->
+                    <div class="form-field">
+                        <label for="voiceSelect">Select Voice:</label>
+                        <select id="voiceSelect" required>
+                            {% for voice in voices %}
+                                <option value="{{ voice }}">{{ voice }}</option>
+                            {% endfor %}
+                        </select>
+                        <p class="help-text">Available voices: {{ voices|join(', ') }}</p>
+                    </div>
+
+                    <!-- Speed Control -->
+                    <div class="form-field">
+                        <label for="speedSlider">Speech Speed: <span id="speedValue">1.0x</span></label>
+                        <input 
+                            type="range" 
+                            id="speedSlider" 
+                            min="0.5" 
+                            max="2.0" 
+                            step="0.1" 
+                            value="1.0"
+                            class="slider"
+                        >
+                        <div class="speed-labels">
+                            <span>0.5x (Slow)</span>
+                            <span>1.0x (Normal)</span>
+                            <span>2.0x (Fast)</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="button-group">
+                        <button type="button" id="playBtn" class="btn btn-primary">
+                            <span class="btn-icon">▶️</span> Play
+                        </button>
+                        <button type="button" id="downloadBtn" class="btn btn-secondary">
+                            <span class="btn-icon">⬇️</span> Download
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Loading Indicator -->
+                <div id="loadingIndicator" class="loading-indicator hidden">
+                    <div class="spinner"></div>
+                    <p>Generating speech...</p>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorMessage" class="alert alert-error hidden"></div>
+
+                <!-- Audio Player -->
+                <div id="playerSection" class="player-section hidden">
+                    <h3>Generated Audio</h3>
+                    <audio id="audioPlayer" controls style="width: 100%; margin-bottom: 1rem;">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <div class="player-info">
+                        <p><strong>Voice:</strong> <span id="playerVoice">-</span></p>
+                        <p><strong>Text:</strong> <span id="playerText">-</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Information Section -->
+            <div class="card">
+                <h2>About KittenTTS</h2>
+                <ul>
+                    <li><strong>Ultra-lightweight:</strong> Model size less than 25MB</li>
+                    <li><strong>CPU-optimized:</strong> Runs without GPU on any device</li>
+                    <li><strong>High-quality voices:</strong> Multiple premium voice options</li>
+                    <li><strong>Fast inference:</strong> Optimized for real-time speech synthesis</li>
+                </ul>
+                <p>
+                    <a href="https://kittenml.com" target="_blank">Visit KittenTTS Website</a> | 
+                    <a href="https://github.com/KittenML/KittenTTS" target="_blank">GitHub Repository</a>
+                </p>
+            </div>
+        </main>
+
+        <footer>
+            <p>KittenTTS - Lightweight Text-to-Speech Model</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
